@@ -1,0 +1,51 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+} from '@nestjs/common';
+import { PolizasService } from './polizas.service';
+import { Poliza } from '../entities/poliza.entity';
+import { CrearPolizaDto } from '../dto/crear-poliza.dto';
+import { UpdatePolizaDto } from '../dto/update-poliza.dto';
+
+@Controller('polizas')
+export class PolizasController {
+  constructor(private readonly polizasService: PolizasService) {}
+
+  @Get()
+  findAll(): Promise<Poliza[]> {
+    return this.polizasService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Poliza> {
+    return this.polizasService.findOne(+id);
+  }
+
+  @Get(':id/amparos')
+  findAmparos(@Param('id') id: string): Promise<Poliza> {
+    return this.polizasService.findAmparos(+id);
+  }
+
+  @Post()
+  create(@Body() crearPolizaDto: CrearPolizaDto): Promise<Poliza> {
+    return this.polizasService.create(crearPolizaDto);
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updatePolizaDto: UpdatePolizaDto,
+  ): Promise<Poliza> {
+    return this.polizasService.update(+id, updatePolizaDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    return this.polizasService.remove(+id);
+  }
+}
