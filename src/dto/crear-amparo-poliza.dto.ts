@@ -2,10 +2,11 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsDate,
   IsNumber,
-  IsBoolean, IsISO8601
-} from "class-validator";
+  IsBoolean,
+  IsDate,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CrearAmparoPolizaDto {
   @IsNotEmpty()
@@ -25,12 +26,14 @@ export class CrearAmparoPolizaDto {
   descripcion?: string;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_inicio?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_inicio?: Date;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_final?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_final?: Date;
 
   @IsOptional()
   @IsNumber()

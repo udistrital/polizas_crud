@@ -9,10 +9,10 @@ export class Poliza {
   @Column({ nullable: true })
   descripcion: string;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_inicio: Date;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_fin: Date;
 
   @Column({ nullable: true })
@@ -21,10 +21,10 @@ export class Poliza {
   @Column({ nullable: true })
   usuario_legacy: string;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_aprobacion: Date;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_expedicion: Date;
 
   @Column({ nullable: true })

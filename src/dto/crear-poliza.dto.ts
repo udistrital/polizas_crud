@@ -3,8 +3,9 @@ import {
   IsString,
   IsNumber,
   IsBoolean,
-  IsISO8601,
+  IsDate,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CrearPolizaDto {
   @IsOptional()
@@ -12,12 +13,14 @@ export class CrearPolizaDto {
   descripcion?: string;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_inicio?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_inicio?: Date;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_fin?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_fin?: Date;
 
   @IsOptional()
   @IsNumber()
@@ -28,12 +31,14 @@ export class CrearPolizaDto {
   usuario_legacy?: string;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_aprobacion?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_aprobacion?: Date;
 
   @IsOptional()
-  @IsISO8601()
-  fecha_expedicion?: string;
+  @IsDate()
+  @Type(() => Date)
+  fecha_expedicion?: Date;
 
   @IsOptional()
   @IsString()
