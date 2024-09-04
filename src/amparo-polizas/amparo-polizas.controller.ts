@@ -12,7 +12,7 @@ import { AmparoPoliza } from '../entities/amparo-poliza.entity';
 import { UpdateAmparoPolizaDto } from '../dto/update-amparo-poliza.dto';
 import { CrearAmparoPolizaDto } from '../dto/crear-amparo-poliza.dto';
 
-@Controller('amparo-polizas')
+@Controller('polizas')
 export class AmparoPolizasController {
   constructor(private readonly amparoPolizasService: AmparoPolizasService) {}
 

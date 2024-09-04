@@ -2,10 +2,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsDate,
   IsNumber,
-  IsBoolean, IsISO8601
-} from "class-validator";
+  IsBoolean,
+  IsISO8601,
+} from 'class-validator';
 
 export class CrearAmparoPolizaDto {
   @IsNotEmpty()
