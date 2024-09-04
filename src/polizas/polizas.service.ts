@@ -40,7 +40,9 @@ export class PolizasService {
   }
 
   async create(crearPolizaDto: CrearPolizaDto): Promise<Poliza> {
-    this.validarFechas(crearPolizaDto.fecha_inicio, crearPolizaDto.fecha_fin);
+    if (crearPolizaDto.fecha_inicio && crearPolizaDto.fecha_fin) {
+      this.validarFechas(crearPolizaDto.fecha_inicio, crearPolizaDto.fecha_fin);
+    }
     const poliza = this.polizasRepository.create(crearPolizaDto);
     return this.polizasRepository.save(poliza);
   }
@@ -48,7 +50,7 @@ export class PolizasService {
   async update(id: number, updatePolizaDto: UpdatePolizaDto): Promise<Poliza> {
     await this.findOne(id);
 
-    if (updatePolizaDto.fecha_inicio || updatePolizaDto.fecha_fin) {
+    if (updatePolizaDto.fecha_inicio && updatePolizaDto.fecha_fin) {
       this.validarFechas(
         updatePolizaDto.fecha_inicio,
         updatePolizaDto.fecha_fin,
@@ -62,6 +64,7 @@ export class PolizasService {
     if (result.affected === 1) {
       return await this.findOne(id);
     }
+    throw new BadRequestException(`No se pudo actualizar la póliza con ID ${id}`);
   }
 
   async remove(id: number): Promise<void> {
@@ -75,7 +78,7 @@ export class PolizasService {
     }
   }
 
-  private validarFechas(fechaInicio: string, fechaFin: string): void {
+  private validarFechas(fechaInicio: Date, fechaFin: Date): void {
     if (fechaInicio >= fechaFin) {
       throw new BadRequestException(
         'La fecha de inicio debe ser menor a la fecha final',
