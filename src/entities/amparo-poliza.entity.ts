@@ -24,10 +24,10 @@ export class AmparoPoliza {
   @Column({ nullable: true })
   descripcion: string;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_inicio: Date;
 
-  @Column({ nullable: true, type: 'timestamp with time zone' })
+  @Column({ nullable: true, type: 'date' })
   fecha_final: Date;
 
   @Column({ nullable: true, type: 'numeric' })
