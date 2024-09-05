@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -16,23 +17,52 @@ export class AmparoPolizasService {
     private amparoPolizasRepository: Repository<AmparoPoliza>,
   ) {}
 
-  async findAll(): Promise<AmparoPoliza[]> {
-    return this.amparoPolizasRepository.find();
+  async findAll(): Promise<StandardResponse<any>> {
+    try {
+      const data = await this.amparoPolizasRepository.find();
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Amparos de pólizas encontrados',
+        Data: data,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al consultar los amparos de pólizas',
+        Data: error.message,
+      });
+    }
   }
 
-  async findOne(id: number): Promise<AmparoPoliza> {
-    const amparo = await this.amparoPolizasRepository.findOne({
-      where: { id },
-    });
-    if (!amparo) {
-      throw new NotFoundException(`Amparo con ID ${id} no encontrado.`);
+  async findOne(id: number): Promise<StandardResponse<any>> {
+    try {
+      const amparo = await this.amparoPolizasRepository.findOne({
+        where: { id },
+      });
+      if (!amparo) {
+        throw new NotFoundException(`Amparo con ID ${id} no encontrado.`);
+      }
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Amparo de póliza encontrado',
+        Data: amparo,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al consultar el amparo de póliza',
+        Data: error.message,
+      });
     }
-    return amparo;
   }
 
   async create(
     crearAmparoPolizaDto: CrearAmparoPolizaDto,
-  ): Promise<AmparoPoliza> {
+  ): Promise<StandardResponse<any>> {
     if (crearAmparoPolizaDto.fecha_inicio && crearAmparoPolizaDto.fecha_final) {
       this.validarFechas(
         crearAmparoPolizaDto.fecha_inicio,
@@ -41,44 +71,72 @@ export class AmparoPolizasService {
     }
     const amparoPoliza =
       this.amparoPolizasRepository.create(crearAmparoPolizaDto);
-    return this.amparoPolizasRepository.save(amparoPoliza);
+    try {
+      await this.amparoPolizasRepository.save(amparoPoliza);
+      return {
+        Success: true,
+        Status: HttpStatus.CREATED,
+        Message: 'Amparo de póliza creado',
+        Data: amparoPoliza,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Failed to create item',
+        Data: error.message,
+      });
+    }
   }
 
   async update(
     id: number,
     updateAmparoPolizaDto: UpdateAmparoPolizaDto,
-  ): Promise<AmparoPoliza> {
+  ): Promise<StandardResponse<any>> {
     await this.findOne(id);
 
-    if (
-      updateAmparoPolizaDto.fecha_inicio &&
-      updateAmparoPolizaDto.fecha_final
-    ) {
-      this.validarFechas(
-        updateAmparoPolizaDto.fecha_inicio,
-        updateAmparoPolizaDto.fecha_final,
+    try {
+      if (
+        updateAmparoPolizaDto.fecha_inicio &&
+        updateAmparoPolizaDto.fecha_final
+      ) {
+        this.validarFechas(
+          updateAmparoPolizaDto.fecha_inicio,
+          updateAmparoPolizaDto.fecha_final,
+        );
+      }
+      const result: UpdateResult = await this.amparoPolizasRepository.update(
+        id,
+        updateAmparoPolizaDto,
       );
+      if (result.affected === 1) {
+        return {
+          Success: true,
+          Status: HttpStatus.OK,
+          Message: 'Amparo de póliza actualizado',
+        };
+      }
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al actualizar el amparo de póliza',
+        Data: error.message,
+      });
     }
-    const result: UpdateResult = await this.amparoPolizasRepository.update(
-      id,
-      updateAmparoPolizaDto,
-    );
-    if (result.affected === 1) {
-      return this.findOne(id);
-    }
-    throw new BadRequestException(
-      `No se pudo actualizar el amparo de póliza con ID ${id}`,
-    );
   }
 
   async remove(id: number): Promise<void> {
     const amparoPoliza = await this.findOne(id);
     try {
-      await this.amparoPolizasRepository.remove(amparoPoliza);
+      await this.amparoPolizasRepository.remove(amparoPoliza.Data);
     } catch (error) {
-      throw new BadRequestException(
-        'No se puede eliminar el amparo de póliza: ' + error.message,
-      );
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al eliminar el amparo de póliza',
+        Data: error.message,
+      });
     }
   }
 

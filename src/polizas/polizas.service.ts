@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -20,15 +21,33 @@ export class PolizasService {
     return this.polizasRepository.find();
   }
 
-  async findOne(id: number): Promise<Poliza> {
-    const poliza = await this.polizasRepository.findOne({ where: { id } });
-    if (!poliza) {
-      throw new NotFoundException(`Poliza con ID ${id} no encontrada.`);
+  async findOne(id: number): Promise<StandardResponse<any>> {
+    try {
+      const poliza = await this.polizasRepository.findOne({ where: { id } });
+      if (!poliza) {
+        throw new NotFoundException({
+          Success: false,
+          Status: 404,
+          Message: `Poliza con ID ${id} no encontrada.`,
+        });
+      }
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Poliza encontrada',
+        Data: poliza,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al consultar la póliza',
+        Data: error.message,
+      });
     }
-    return poliza;
   }
 
-  async findAmparos(id: number): Promise<Poliza> {
+  async findAmparos(id: number): Promise<StandardResponse<any>> {
     const poliza = await this.polizasRepository.findOne({
       where: { id },
       relations: ['amparos'],
@@ -36,18 +55,31 @@ export class PolizasService {
     if (!poliza) {
       throw new NotFoundException(`Poliza con ID ${id} no encontrada.`);
     }
-    return poliza;
+    return {
+      Success: true,
+      Status: HttpStatus.OK,
+      Message: 'Amparos encontrados',
+      Data: poliza.amparos,
+    };
   }
 
-  async create(crearPolizaDto: CrearPolizaDto): Promise<Poliza> {
+  async create(crearPolizaDto: CrearPolizaDto): Promise<StandardResponse<any>> {
     if (crearPolizaDto.fecha_inicio && crearPolizaDto.fecha_fin) {
       this.validarFechas(crearPolizaDto.fecha_inicio, crearPolizaDto.fecha_fin);
     }
     const poliza = this.polizasRepository.create(crearPolizaDto);
-    return this.polizasRepository.save(poliza);
+    return {
+      Success: true,
+      Status: HttpStatus.CREATED,
+      Message: 'Póliza creada',
+      Data: await this.polizasRepository.save(poliza),
+    }
   }
 
-  async update(id: number, updatePolizaDto: UpdatePolizaDto): Promise<Poliza> {
+  async update(
+    id: number,
+    updatePolizaDto: UpdatePolizaDto,
+  ): Promise<StandardResponse<any>> {
     await this.findOne(id);
 
     if (updatePolizaDto.fecha_inicio && updatePolizaDto.fecha_fin) {
@@ -62,19 +94,35 @@ export class PolizasService {
       updatePolizaDto,
     );
     if (result.affected === 1) {
-      return await this.findOne(id);
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Póliza actualizada',
+      };
     }
-    throw new BadRequestException(`No se pudo actualizar la póliza con ID ${id}`);
+    throw new BadRequestException({
+      Success: false,
+      Status: 400,
+      Message: 'Error al actualizar la póliza',
+    });
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number): Promise<StandardResponse<any>> {
     const poliza = await this.findOne(id);
     try {
-      await this.polizasRepository.remove(poliza);
+      await this.polizasRepository.remove(poliza.Data);
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Póliza eliminada',
+      };
     } catch (error) {
-      throw new BadRequestException(
-        'No se puede eliminar la póliza: ' + error.message,
-      );
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al eliminar la póliza',
+        Data: error.message,
+      });
     }
   }
 

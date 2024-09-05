@@ -74,10 +74,13 @@ paths:
   /amparos:
     get:
       operationId: AmparoPolizasController_findAll
+      summary: Listar todos los amparos
       parameters: []
       responses:
         '200':
           description: ''
+      tags: &ref_0
+        - amparos
     post:
       operationId: AmparoPolizasController_create
       parameters: []
@@ -90,6 +93,7 @@ paths:
       responses:
         '201':
           description: ''
+      tags: *ref_0
   /amparos/{id}:
     get:
       operationId: AmparoPolizasController_findOne
@@ -102,6 +106,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
     put:
       operationId: AmparoPolizasController_update
       parameters:
@@ -119,6 +124,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
     delete:
       operationId: AmparoPolizasController_remove
       parameters:
@@ -130,6 +136,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
 info:
   title: Polizas API CRUD
   description: API
