@@ -17,8 +17,14 @@ export class PolizasService {
     private readonly polizasRepository: Repository<Poliza>,
   ) {}
 
-  async findAll(): Promise<Poliza[]> {
-    return this.polizasRepository.find();
+  async findAll(): Promise<StandardResponse<any>> {
+    const polizas = await this.polizasRepository.find();
+    return {
+      Success: true,
+      Status: HttpStatus.OK,
+      Message: 'Póliza encontrada',
+      Data: polizas,
+    };
   }
 
   async findOne(id: number): Promise<StandardResponse<any>> {

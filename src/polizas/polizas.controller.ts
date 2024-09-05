@@ -8,7 +8,6 @@ import {
   Param,
 } from '@nestjs/common';
 import { PolizasService } from './polizas.service';
-import { Poliza } from '../entities/poliza.entity';
 import { CrearPolizaDto } from '../dto/crear-poliza.dto';
 import { UpdatePolizaDto } from '../dto/update-poliza.dto';
 
@@ -17,7 +16,7 @@ export class PolizasController {
   constructor(private readonly polizasService: PolizasService) {}
 
   @Get()
-  findAll(): Promise<Poliza[]> {
+  findAll(): Promise<StandardResponse<any>> {
     return this.polizasService.findAll();
   }
 
