@@ -8,7 +8,6 @@ import {
   Param,
 } from '@nestjs/common';
 import { PolizasService } from './polizas.service';
-import { Poliza } from '../entities/poliza.entity';
 import { CrearPolizaDto } from '../dto/crear-poliza.dto';
 import { UpdatePolizaDto } from '../dto/update-poliza.dto';
 
@@ -17,22 +16,22 @@ export class PolizasController {
   constructor(private readonly polizasService: PolizasService) {}
 
   @Get()
-  findAll(): Promise<Poliza[]> {
+  findAll(): Promise<StandardResponse<any>> {
     return this.polizasService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Poliza> {
+  findOne(@Param('id') id: string): Promise<StandardResponse<any>> {
     return this.polizasService.findOne(+id);
   }
 
   @Get(':id/amparos')
-  findAmparos(@Param('id') id: string): Promise<Poliza> {
+  findAmparos(@Param('id') id: string): Promise<StandardResponse<any>> {
     return this.polizasService.findAmparos(+id);
   }
 
   @Post()
-  create(@Body() crearPolizaDto: CrearPolizaDto): Promise<Poliza> {
+  create(@Body() crearPolizaDto: CrearPolizaDto): Promise<StandardResponse<any>> {
     return this.polizasService.create(crearPolizaDto);
   }
 
@@ -40,12 +39,12 @@ export class PolizasController {
   update(
     @Param('id') id: string,
     @Body() updatePolizaDto: UpdatePolizaDto,
-  ): Promise<Poliza> {
+  ): Promise<StandardResponse<any>> {
     return this.polizasService.update(+id, updatePolizaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id') id: string): Promise<StandardResponse<any>> {
     return this.polizasService.remove(+id);
   }
 }

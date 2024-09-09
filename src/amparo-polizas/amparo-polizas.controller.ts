@@ -6,38 +6,43 @@ import {
   Delete,
   Body,
   Param,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { AmparoPolizasService } from './amparo-polizas.service';
-import { AmparoPoliza } from '../entities/amparo-poliza.entity';
 import { UpdateAmparoPolizaDto } from '../dto/update-amparo-poliza.dto';
 import { CrearAmparoPolizaDto } from '../dto/crear-amparo-poliza.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('amparos')
 @Controller('amparos')
 export class AmparoPolizasController {
   constructor(private readonly amparoPolizasService: AmparoPolizasService) {}
 
   @Get()
-  findAll(): Promise<AmparoPoliza[]> {
+  @ApiOperation({ summary: 'Listar todos los amparos' })
+  findAll(): Promise<StandardResponse<any>> {
     return this.amparoPolizasService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<AmparoPoliza> {
+  findOne(@Param('id') id: string): Promise<StandardResponse<any>> {
     return this.amparoPolizasService.findOne(+id);
   }
 
   @Post()
-  create(
+  @HttpCode(HttpStatus.CREATED)
+  async create(
     @Body() crearAmparoPolizaDto: CrearAmparoPolizaDto,
-  ): Promise<AmparoPoliza> {
-    return this.amparoPolizasService.create(crearAmparoPolizaDto);
+  ): Promise<StandardResponse<any>> {
+    return await this.amparoPolizasService.create(crearAmparoPolizaDto);
   }
 
   @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateAmparoPolizaDto: UpdateAmparoPolizaDto,
-  ): Promise<AmparoPoliza> {
+  ): Promise<StandardResponse<any>> {
     return this.amparoPolizasService.update(+id, updateAmparoPolizaDto);
   }
 
