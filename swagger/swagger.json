@@ -133,13 +133,17 @@
       },
       "post": {
         "operationId": "AmparoPolizasController_create",
+        "summary": "Crear múltiples amparos de pólizas",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CrearAmparoPolizaDto"
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -250,10 +254,6 @@
         "properties": {}
       },
       "UpdatePolizaDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CrearAmparoPolizaDto": {
         "type": "object",
         "properties": {}
       },

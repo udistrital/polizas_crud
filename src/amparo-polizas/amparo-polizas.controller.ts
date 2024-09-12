@@ -32,10 +32,13 @@ export class AmparoPolizasController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Crear múltiples amparos de pólizas' })
   async create(
-    @Body() crearAmparoPolizaDto: CrearAmparoPolizaDto,
+    @Body() crearAmparoPolizasDto: CrearAmparoPolizaDto[],
   ): Promise<StandardResponse<any>> {
-    return await this.amparoPolizasService.create(crearAmparoPolizaDto);
+    return await this.amparoPolizasService.createMultiple(
+      crearAmparoPolizasDto,
+    );
   }
 
   @Put(':id')

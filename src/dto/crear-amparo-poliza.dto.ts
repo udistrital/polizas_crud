@@ -9,7 +9,7 @@ import {
 import { Type } from 'class-transformer';
 
 export class CrearAmparoPolizaDto {
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   tipo_valor_amparo_id: number;
 
