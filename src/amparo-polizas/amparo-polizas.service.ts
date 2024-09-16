@@ -60,6 +60,32 @@ export class AmparoPolizasService {
     }
   }
 
+  async findByContractId(id: string): Promise<StandardResponse<any>> {
+    try {
+      const amparos = await this.amparoPolizasRepository.find({
+        where: { contrato_general_id: id },
+      });
+      if (amparos.length === 0) {
+        throw new NotFoundException(
+          `No se encontraron amparos para el contrato con ID ${id}`,
+        );
+      }
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Amparos de pólizas encontrados',
+        Data: amparos,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al consultar los amparos de pólizas',
+        Data: error.message,
+      });
+    }
+  }
+
   async createMultiple(
     crearAmparoPolizasDto: CrearAmparoPolizaDto[],
   ): Promise<StandardResponse<any>> {
