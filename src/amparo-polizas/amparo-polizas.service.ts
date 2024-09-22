@@ -60,33 +60,67 @@ export class AmparoPolizasService {
     }
   }
 
-  async create(
-    crearAmparoPolizaDto: CrearAmparoPolizaDto,
-  ): Promise<StandardResponse<any>> {
-    if (crearAmparoPolizaDto.fecha_inicio && crearAmparoPolizaDto.fecha_final) {
-      this.validarFechas(
-        crearAmparoPolizaDto.fecha_inicio,
-        crearAmparoPolizaDto.fecha_final,
-      );
-    }
-    const amparoPoliza =
-      this.amparoPolizasRepository.create(crearAmparoPolizaDto);
+  async findByContractId(id: string): Promise<StandardResponse<any>> {
     try {
-      await this.amparoPolizasRepository.save(amparoPoliza);
+      const amparos = await this.amparoPolizasRepository.find({
+        where: { contrato_general_id: id },
+      });
+      if (amparos.length === 0) {
+        throw new NotFoundException(
+          `No se encontraron amparos para el contrato con ID ${id}`,
+        );
+      }
       return {
         Success: true,
-        Status: HttpStatus.CREATED,
-        Message: 'Amparo de póliza creado',
-        Data: amparoPoliza,
+        Status: HttpStatus.OK,
+        Message: 'Amparos de pólizas encontrados',
+        Data: amparos,
       };
     } catch (error) {
       throw new BadRequestException({
         Success: false,
         Status: 400,
-        Message: 'Failed to create item',
+        Message: 'Error al consultar los amparos de pólizas',
         Data: error.message,
       });
     }
+  }
+
+  async createMultiple(
+    crearAmparoPolizasDto: CrearAmparoPolizaDto[],
+  ): Promise<StandardResponse<any>> {
+    const createdAmparos = [];
+    const errors = [];
+
+    for (const dto of crearAmparoPolizasDto) {
+      try {
+        if (dto.fecha_inicio && dto.fecha_final) {
+          this.validarFechas(dto.fecha_inicio, dto.fecha_final);
+        }
+        const amparoPoliza = this.amparoPolizasRepository.create(dto);
+        const savedAmparo =
+          await this.amparoPolizasRepository.save(amparoPoliza);
+        createdAmparos.push(savedAmparo);
+      } catch (error) {
+        errors.push({ dto, error: error.message });
+      }
+    }
+
+    if (errors.length > 0) {
+      return {
+        Success: false,
+        Status: HttpStatus.PARTIAL_CONTENT,
+        Message: 'Algunos amparos de pólizas no pudieron ser creados',
+        Data: { createdAmparos, errors },
+      };
+    }
+
+    return {
+      Success: true,
+      Status: HttpStatus.CREATED,
+      Message: 'Todos los amparos de pólizas fueron creados exitosamente',
+      Data: createdAmparos,
+    };
   }
 
   async update(

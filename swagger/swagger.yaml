@@ -83,13 +83,16 @@ paths:
         - amparos
     post:
       operationId: AmparoPolizasController_create
+      summary: Crear múltiples amparos de pólizas
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CrearAmparoPolizaDto'
+              type: array
+              items:
+                type: string
       responses:
         '201':
           description: ''
@@ -137,6 +140,20 @@ paths:
         '200':
           description: ''
       tags: *ref_0
+  /amparos/contrato/{id}:
+    get:
+      operationId: AmparoPolizasController_findByContractId
+      summary: Listar todos los amparos de un contrato
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
 info:
   title: Polizas API CRUD
   description: API
@@ -152,9 +169,6 @@ components:
       type: object
       properties: {}
     UpdatePolizaDto:
-      type: object
-      properties: {}
-    CrearAmparoPolizaDto:
       type: object
       properties: {}
     UpdateAmparoPolizaDto:

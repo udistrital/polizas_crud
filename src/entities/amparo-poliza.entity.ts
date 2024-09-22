@@ -12,7 +12,7 @@ export class AmparoPoliza {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   tipo_valor_amparo_id: number;
 
   @Column({ nullable: false })

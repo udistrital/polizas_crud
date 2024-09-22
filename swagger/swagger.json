@@ -133,13 +133,17 @@
       },
       "post": {
         "operationId": "AmparoPolizasController_create",
+        "summary": "Crear múltiples amparos de pólizas",
         "parameters": [],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CrearAmparoPolizaDto"
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -228,6 +232,30 @@
           "amparos"
         ]
       }
+    },
+    "/amparos/contrato/{id}": {
+      "get": {
+        "operationId": "AmparoPolizasController_findByContractId",
+        "summary": "Listar todos los amparos de un contrato",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "amparos"
+        ]
+      }
     }
   },
   "info": {
@@ -250,10 +278,6 @@
         "properties": {}
       },
       "UpdatePolizaDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CrearAmparoPolizaDto": {
         "type": "object",
         "properties": {}
       },

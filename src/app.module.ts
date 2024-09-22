@@ -22,7 +22,7 @@ import { AmparoPoliza } from './entities/amparo-poliza.entity';
         password: configService.get('POLIZAS_CRUD_PASS'),
         database: configService.get('POLIZAS_CRUD_DB'),
         entities: [Poliza, AmparoPoliza],
-        synchronize: true, //Solo para desarrollo, en producción se debe desactivar
+        synchronize: configService.get('DEVELOPER_MODE'), //Solo para desarrollo, en producción se debe desactivar
         ssl: {
           rejectUnauthorized: false,
         },
