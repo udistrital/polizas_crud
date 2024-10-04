@@ -50,7 +50,7 @@ export class CrearPolizaDto {
 
   @IsOptional()
   @IsString()
-  contrato_general_id?: string;
+  contrato_general_id?: number;
 
   @IsOptional()
   @IsBoolean()

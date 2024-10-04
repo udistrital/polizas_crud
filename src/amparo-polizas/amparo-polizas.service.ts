@@ -60,7 +60,7 @@ export class AmparoPolizasService {
     }
   }
 
-  async findByContractId(id: string): Promise<StandardResponse<any>> {
+  async findByContractId(id: number): Promise<StandardResponse<any>> {
     try {
       const amparos = await this.amparoPolizasRepository.find({
         where: { contrato_general_id: id },

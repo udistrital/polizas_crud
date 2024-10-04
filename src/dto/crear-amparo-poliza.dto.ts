@@ -41,7 +41,7 @@ export class CrearAmparoPolizaDto {
 
   @IsOptional()
   @IsString()
-  contrato_general_id?: string;
+  contrato_general_id?: number;
 
   @IsOptional()
   @IsNumber()

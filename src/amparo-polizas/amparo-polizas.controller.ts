@@ -33,7 +33,7 @@ export class AmparoPolizasController {
   @ApiOperation({ summary: 'Listar todos los amparos de un contrato' })
   @Get('contrato/:id')
   findByContractId(@Param('id') id: string): Promise<StandardResponse<any>> {
-    return this.amparoPolizasService.findByContractId(id);
+    return this.amparoPolizasService.findByContractId(+id);
   }
   @Post()
   @HttpCode(HttpStatus.CREATED)
