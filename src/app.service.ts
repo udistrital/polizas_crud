@@ -13,7 +13,7 @@ export class AppService {
     } catch (error) {
       return {
         Status: 'error',
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   }
