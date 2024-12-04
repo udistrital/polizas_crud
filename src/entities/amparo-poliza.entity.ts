@@ -34,7 +34,7 @@ export class AmparoPoliza {
   valor: number;
 
   @Column({ nullable: true })
-  contrato_general_id: string;
+  contrato_general_id: number;
 
   @ManyToOne(() => Poliza, (poliza) => poliza.amparos, { nullable: true })
   @JoinColumn({ name: 'poliza_id' })

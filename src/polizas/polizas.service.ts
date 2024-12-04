@@ -79,7 +79,7 @@ export class PolizasService {
       Status: HttpStatus.CREATED,
       Message: 'Póliza creada',
       Data: await this.polizasRepository.save(poliza),
-    }
+    };
   }
 
   async update(

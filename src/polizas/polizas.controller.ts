@@ -31,7 +31,9 @@ export class PolizasController {
   }
 
   @Post()
-  create(@Body() crearPolizaDto: CrearPolizaDto): Promise<StandardResponse<any>> {
+  create(
+    @Body() crearPolizaDto: CrearPolizaDto,
+  ): Promise<StandardResponse<any>> {
     return this.polizasService.create(crearPolizaDto);
   }
 

@@ -34,7 +34,7 @@ export class Poliza {
   entidad_aseguradora_id: number;
 
   @Column({ nullable: true })
-  contrato_general_id: string;
+  contrato_general_id: number;
 
   @Column({ nullable: false, default: true })
   activo: boolean;
