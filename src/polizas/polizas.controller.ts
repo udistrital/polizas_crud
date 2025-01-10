@@ -10,6 +10,7 @@ import {
 import { PolizasService } from './polizas.service';
 import { CrearPolizaDto } from '../dto/crear-poliza.dto';
 import { UpdatePolizaDto } from '../dto/update-poliza.dto';
+import { StandardResponse } from '../utils/standardResponse.interface';
 
 @Controller('polizas')
 export class PolizasController {

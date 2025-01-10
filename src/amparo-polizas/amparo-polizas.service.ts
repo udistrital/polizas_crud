@@ -9,6 +9,7 @@ import { Repository, UpdateResult } from 'typeorm';
 import { AmparoPoliza } from '../entities/amparo-poliza.entity';
 import { UpdateAmparoPolizaDto } from '../dto/update-amparo-poliza.dto';
 import { CrearAmparoPolizaDto } from '../dto/crear-amparo-poliza.dto';
+import { StandardResponse } from '../utils/standardResponse.interface';
 
 @Injectable()
 export class AmparoPolizasService {
