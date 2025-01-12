@@ -13,6 +13,7 @@ import { AmparoPolizasService } from './amparo-polizas.service';
 import { UpdateAmparoPolizaDto } from '../dto/update-amparo-poliza.dto';
 import { CrearAmparoPolizaDto } from '../dto/crear-amparo-poliza.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { StandardResponse } from '../utils/standardResponse.interface';
 
 @ApiTags('amparos')
 @Controller('amparos')

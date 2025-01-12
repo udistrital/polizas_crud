@@ -9,6 +9,7 @@ import { Repository, UpdateResult } from 'typeorm';
 import { Poliza } from '../entities/poliza.entity';
 import { CrearPolizaDto } from '../dto/crear-poliza.dto';
 import { UpdatePolizaDto } from '../dto/update-poliza.dto';
+import { StandardResponse } from 'src/utils/standardResponse.interface';
 
 @Injectable()
 export class PolizasService {
