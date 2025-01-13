@@ -1,6 +1,20 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
     "/polizas": {
       "get": {
         "operationId": "PolizasController_findAll",
@@ -9,7 +23,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       },
       "post": {
         "operationId": "PolizasController_create",
@@ -28,7 +45,10 @@
           "201": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       }
     },
     "/polizas/{id}": {
@@ -48,7 +68,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       },
       "put": {
         "operationId": "PolizasController_update",
@@ -76,7 +99,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       },
       "delete": {
         "operationId": "PolizasController_remove",
@@ -94,7 +120,10 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       }
     },
     "/polizas/{id}/amparos": {
@@ -114,26 +143,28 @@
           "200": {
             "description": ""
           }
-        }
+        },
+        "tags": [
+          "Polizas"
+        ]
       }
     },
     "/amparos": {
       "get": {
         "operationId": "AmparoPolizasController_findAll",
-        "summary": "Listar todos los amparos",
         "parameters": [],
         "responses": {
           "200": {
             "description": ""
           }
         },
+        "summary": "Listar todos los amparos",
         "tags": [
           "amparos"
         ]
       },
       "post": {
         "operationId": "AmparoPolizasController_create",
-        "summary": "Crear múltiples amparos de pólizas",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -153,6 +184,7 @@
             "description": ""
           }
         },
+        "summary": "Crear múltiples amparos de pólizas",
         "tags": [
           "amparos"
         ]
@@ -236,7 +268,6 @@
     "/amparos/contrato/{id}": {
       "get": {
         "operationId": "AmparoPolizasController_findByContractId",
-        "summary": "Listar todos los amparos de un contrato",
         "parameters": [
           {
             "name": "id",
@@ -252,6 +283,7 @@
             "description": ""
           }
         },
+        "summary": "Listar todos los amparos de un contrato",
         "tags": [
           "amparos"
         ]
@@ -259,14 +291,14 @@
     }
   },
   "info": {
-    "title": "Polizas API CRUD",
-    "description": "API",
+    "title": "Pólizas API CRUD",
+    "description": "API para Pólizas",
     "version": "1.0",
     "contact": {}
   },
   "tags": [
     {
-      "name": "API",
+      "name": "polizas",
       "description": ""
     }
   ],

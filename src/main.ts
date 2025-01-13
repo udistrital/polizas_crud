@@ -1,20 +1,21 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { join } from 'path';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
-import * as process from 'node:process';
+import * as compression from 'compression';
+import helmet from 'helmet';
+import { join } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Polizas API CRUD')
-    .setDescription('API')
+    .setTitle('Pólizas API CRUD')
+    .setDescription('API para Pólizas')
     .setVersion('1.0')
-    .addTag('API')
+    .addTag('polizas')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -38,6 +39,8 @@ async function bootstrap() {
   );
 
   app.enableCors();
+  app.use(helmet()); // Seguridad
+  app.use(compression()); // Compresión
 
   await app.listen(parseInt(process.env.PORT) || 8080);
 }
