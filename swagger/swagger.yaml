@@ -1,5 +1,14 @@
 openapi: 3.0.0
 paths:
+  /:
+    get:
+      operationId: AppController_healthCheck
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - App
   /polizas:
     get:
       operationId: PolizasController_findAll
@@ -7,6 +16,8 @@ paths:
       responses:
         '200':
           description: ''
+      tags: &ref_0
+        - Polizas
     post:
       operationId: PolizasController_create
       parameters: []
@@ -19,6 +30,7 @@ paths:
       responses:
         '201':
           description: ''
+      tags: *ref_0
   /polizas/{id}:
     get:
       operationId: PolizasController_findOne
@@ -31,6 +43,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
     put:
       operationId: PolizasController_update
       parameters:
@@ -48,6 +61,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
     delete:
       operationId: PolizasController_remove
       parameters:
@@ -59,6 +73,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
   /polizas/{id}/amparos:
     get:
       operationId: PolizasController_findAmparos
@@ -71,19 +86,19 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_0
   /amparos:
     get:
       operationId: AmparoPolizasController_findAll
-      summary: Listar todos los amparos
       parameters: []
       responses:
         '200':
           description: ''
-      tags: &ref_0
+      summary: Listar todos los amparos
+      tags: &ref_1
         - amparos
     post:
       operationId: AmparoPolizasController_create
-      summary: Crear múltiples amparos de pólizas
       parameters: []
       requestBody:
         required: true
@@ -96,7 +111,8 @@ paths:
       responses:
         '201':
           description: ''
-      tags: *ref_0
+      summary: Crear múltiples amparos de pólizas
+      tags: *ref_1
   /amparos/{id}:
     get:
       operationId: AmparoPolizasController_findOne
@@ -109,7 +125,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
     put:
       operationId: AmparoPolizasController_update
       parameters:
@@ -127,7 +143,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
     delete:
       operationId: AmparoPolizasController_remove
       parameters:
@@ -139,11 +155,10 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_0
+      tags: *ref_1
   /amparos/contrato/{id}:
     get:
       operationId: AmparoPolizasController_findByContractId
-      summary: Listar todos los amparos de un contrato
       parameters:
         - name: id
           required: true
@@ -153,14 +168,15 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_0
+      summary: Listar todos los amparos de un contrato
+      tags: *ref_1
 info:
-  title: Polizas API CRUD
-  description: API
+  title: Pólizas API CRUD
+  description: API para Pólizas
   version: '1.0'
   contact: {}
 tags:
-  - name: API
+  - name: polizas
     description: ''
 servers: []
 components:

@@ -5,6 +5,8 @@ import { PolizasModule } from './polizas/polizas.module';
 import { AmparoPolizasModule } from './amparo-polizas/amparo-polizas.module';
 import { Poliza } from './entities/poliza.entity';
 import { AmparoPoliza } from './entities/amparo-poliza.entity';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -32,5 +34,7 @@ import { AmparoPoliza } from './entities/amparo-poliza.entity';
     PolizasModule,
     AmparoPolizasModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
