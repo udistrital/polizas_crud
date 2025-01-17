@@ -18,9 +18,9 @@ export class AmparoPolizasService {
     private amparoPolizasRepository: Repository<AmparoPoliza>,
   ) {}
 
-  async findAll(): Promise<StandardResponse<any>> {
+  async findAll(): Promise<StandardResponse<AmparoPoliza[]>> {
     try {
-      const data = await this.amparoPolizasRepository.find();
+      const data: AmparoPoliza[] = await this.amparoPolizasRepository.find();
       return {
         Success: true,
         Status: HttpStatus.OK,
@@ -37,9 +37,9 @@ export class AmparoPolizasService {
     }
   }
 
-  async findOne(id: number): Promise<StandardResponse<any>> {
+  async findOne(id: number): Promise<StandardResponse<AmparoPoliza>> {
     try {
-      const amparo = await this.amparoPolizasRepository.findOne({
+      const amparo: AmparoPoliza = await this.amparoPolizasRepository.findOne({
         where: { id },
       });
       if (!amparo) {
@@ -61,9 +61,11 @@ export class AmparoPolizasService {
     }
   }
 
-  async findByContractId(id: number): Promise<StandardResponse<any>> {
+  async findByContractId(
+    id: number,
+  ): Promise<StandardResponse<AmparoPoliza[]>> {
     try {
-      const amparos = await this.amparoPolizasRepository.find({
+      const amparos: AmparoPoliza[] = await this.amparoPolizasRepository.find({
         where: { contrato_general_id: id },
       });
       if (amparos.length === 0) {
@@ -98,8 +100,9 @@ export class AmparoPolizasService {
         if (dto.fecha_inicio && dto.fecha_final) {
           this.validarFechas(dto.fecha_inicio, dto.fecha_final);
         }
-        const amparoPoliza = this.amparoPolizasRepository.create(dto);
-        const savedAmparo =
+        const amparoPoliza: AmparoPoliza =
+          this.amparoPolizasRepository.create(dto);
+        const savedAmparo: AmparoPoliza =
           await this.amparoPolizasRepository.save(amparoPoliza);
         createdAmparos.push(savedAmparo);
       } catch (error) {
