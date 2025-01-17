@@ -144,7 +144,7 @@ export class PolizasService {
       });
       if (polizas.length === 0) {
         throw new NotFoundException(
-          `No se encontraron amparos para el contrato con ID ${id}`,
+          `No se encontraron polizas para el contrato con ID ${id}`,
         );
       }
       return {
