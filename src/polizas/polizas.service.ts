@@ -18,8 +18,8 @@ export class PolizasService {
     private readonly polizasRepository: Repository<Poliza>,
   ) {}
 
-  async findAll(): Promise<StandardResponse<any>> {
-    const polizas = await this.polizasRepository.find();
+  async findAll(): Promise<StandardResponse<Poliza[]>> {
+    const polizas: Poliza[] = await this.polizasRepository.find();
     return {
       Success: true,
       Status: HttpStatus.OK,
@@ -28,9 +28,11 @@ export class PolizasService {
     };
   }
 
-  async findOne(id: number): Promise<StandardResponse<any>> {
+  async findOne(id: number): Promise<StandardResponse<Poliza>> {
     try {
-      const poliza = await this.polizasRepository.findOne({ where: { id } });
+      const poliza: Poliza = await this.polizasRepository.findOne({
+        where: { id },
+      });
       if (!poliza) {
         throw new NotFoundException({
           Success: false,
@@ -70,11 +72,13 @@ export class PolizasService {
     };
   }
 
-  async create(crearPolizaDto: CrearPolizaDto): Promise<StandardResponse<any>> {
+  async create(
+    crearPolizaDto: CrearPolizaDto,
+  ): Promise<StandardResponse<Poliza>> {
     if (crearPolizaDto.fecha_inicio && crearPolizaDto.fecha_fin) {
       this.validarFechas(crearPolizaDto.fecha_inicio, crearPolizaDto.fecha_fin);
     }
-    const poliza = this.polizasRepository.create(crearPolizaDto);
+    const poliza: Poliza = this.polizasRepository.create(crearPolizaDto);
     return {
       Success: true,
       Status: HttpStatus.CREATED,
@@ -128,6 +132,32 @@ export class PolizasService {
         Success: false,
         Status: 400,
         Message: 'Error al eliminar la póliza',
+        Data: error.message,
+      });
+    }
+  }
+
+  async findByContractId(id: number): Promise<StandardResponse<Poliza[]>> {
+    try {
+      const polizas: Poliza[] = await this.polizasRepository.find({
+        where: { contrato_general_id: id },
+      });
+      if (polizas.length === 0) {
+        throw new NotFoundException(
+          `No se encontraron amparos para el contrato con ID ${id}`,
+        );
+      }
+      return {
+        Success: true,
+        Status: HttpStatus.OK,
+        Message: 'Amparos de pólizas encontrados',
+        Data: polizas,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        Success: false,
+        Status: 400,
+        Message: 'Error al consultar los amparos de pólizas',
         Data: error.message,
       });
     }

@@ -17,22 +17,33 @@
     },
     "/polizas": {
       "get": {
+        "description": "Retorna un listado de todas las pólizas registradas en el sistema",
         "operationId": "PolizasController_findAll",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Lista de pólizas obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
           }
         },
+        "summary": "Obtener todas las pólizas",
         "tags": [
-          "Polizas"
+          "polizas"
         ]
       },
       "post": {
+        "description": "Crea una nueva póliza con los datos proporcionados",
         "operationId": "PolizasController_create",
         "parameters": [],
         "requestBody": {
           "required": true,
+          "description": "Datos de la póliza a crear",
           "content": {
             "application/json": {
               "schema": {
@@ -43,50 +54,77 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Póliza creada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la validación de datos"
           }
         },
+        "summary": "Crear una nueva póliza",
         "tags": [
-          "Polizas"
+          "polizas"
         ]
       }
     },
     "/polizas/{id}": {
       "get": {
+        "description": "Busca y retorna una póliza específica basada en su ID",
         "operationId": "PolizasController_findOne",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID de la póliza",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Póliza encontrada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Póliza no encontrada"
           }
         },
+        "summary": "Obtener una póliza por ID",
         "tags": [
-          "Polizas"
+          "polizas"
         ]
       },
       "put": {
+        "description": "Actualiza los datos de una póliza existente",
         "operationId": "PolizasController_update",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID de la póliza a actualizar",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "requestBody": {
           "required": true,
+          "description": "Datos a actualizar de la póliza",
           "content": {
             "application/json": {
               "schema": {
@@ -97,65 +135,135 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Póliza actualizada exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Póliza no encontrada"
           }
         },
+        "summary": "Actualizar una póliza",
         "tags": [
-          "Polizas"
+          "polizas"
         ]
       },
       "delete": {
+        "description": "Elimina una póliza específica del sistema",
         "operationId": "PolizasController_remove",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID de la póliza a eliminar",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Póliza eliminada exitosamente"
+          },
+          "404": {
+            "description": "Póliza no encontrada"
           }
         },
+        "summary": "Eliminar una póliza",
         "tags": [
-          "Polizas"
+          "polizas"
         ]
       }
     },
     "/polizas/{id}/amparos": {
       "get": {
+        "description": "Retorna todos los amparos asociados a una póliza específica",
         "operationId": "PolizasController_findAmparos",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID de la póliza",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Amparos encontrados exitosamente"
+          },
+          "404": {
+            "description": "Póliza no encontrada"
           }
         },
+        "summary": "Obtener amparos de una póliza",
         "tags": [
-          "Polizas"
+          "polizas"
+        ]
+      }
+    },
+    "/polizas/contrato/{id}": {
+      "get": {
+        "description": "Obtiene todas las pólizas asociadas a un contrato específico",
+        "operationId": "PolizasController_findByContractId",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "ID del contrato",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pólizas del contrato encontradas exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontraron pólizas para el contrato especificado"
+          }
+        },
+        "summary": "Listar todas las pólizas de un contrato",
+        "tags": [
+          "polizas"
         ]
       }
     },
     "/amparos": {
       "get": {
+        "description": "Obtiene un listado completo de todos los amparos de pólizas registrados en el sistema",
         "operationId": "AmparoPolizasController_findAll",
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Lista de amparos obtenida exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error al consultar los amparos de pólizas"
           }
         },
         "summary": "Listar todos los amparos",
@@ -164,16 +272,18 @@
         ]
       },
       "post": {
+        "description": "Crea múltiples registros de amparos de pólizas en una sola operación",
         "operationId": "AmparoPolizasController_create",
         "parameters": [],
         "requestBody": {
           "required": true,
+          "description": "Array de amparos a crear",
           "content": {
             "application/json": {
               "schema": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/CrearAmparoPolizaDto"
                 }
               }
             }
@@ -181,7 +291,20 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "Amparos creados exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "206": {
+            "description": "Algunos amparos no pudieron ser creados"
+          },
+          "400": {
+            "description": "Error en la validación de los datos"
           }
         },
         "summary": "Crear múltiples amparos de pólizas",
@@ -192,40 +315,56 @@
     },
     "/amparos/{id}": {
       "get": {
+        "description": "Busca y retorna un amparo específico basado en su ID",
         "operationId": "AmparoPolizasController_findOne",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID del amparo a buscar",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Amparo encontrado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Amparo no encontrado"
           }
         },
+        "summary": "Obtener un amparo por ID",
         "tags": [
           "amparos"
         ]
       },
       "put": {
+        "description": "Actualiza la información de un amparo específico",
         "operationId": "AmparoPolizasController_update",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID del amparo a actualizar",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "requestBody": {
           "required": true,
+          "description": "Datos a actualizar del amparo",
           "content": {
             "application/json": {
               "schema": {
@@ -236,30 +375,47 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "Amparo actualizado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Amparo no encontrado"
           }
         },
+        "summary": "Actualizar un amparo",
         "tags": [
           "amparos"
         ]
       },
       "delete": {
+        "description": "Elimina un amparo específico del sistema",
         "operationId": "AmparoPolizasController_remove",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID del amparo a eliminar",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Amparo eliminado exitosamente"
+          },
+          "404": {
+            "description": "Amparo no encontrado"
           }
         },
+        "summary": "Eliminar un amparo",
         "tags": [
           "amparos"
         ]
@@ -267,20 +423,32 @@
     },
     "/amparos/contrato/{id}": {
       "get": {
+        "description": "Obtiene todos los amparos asociados a un contrato específico",
         "operationId": "AmparoPolizasController_findByContractId",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
+            "description": "ID del contrato",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Amparos del contrato encontrados exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StandardResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontraron amparos para el contrato especificado"
           }
         },
         "summary": "Listar todos los amparos de un contrato",
@@ -305,11 +473,46 @@
   "servers": [],
   "components": {
     "schemas": {
+      "StandardResponse": {
+        "type": "object",
+        "properties": {
+          "Success": {
+            "type": "boolean",
+            "description": "Indica si la operación fue exitosa",
+            "example": true
+          },
+          "Status": {
+            "type": "number",
+            "description": "Código de estado HTTP",
+            "example": 200
+          },
+          "Message": {
+            "type": "string",
+            "description": "Mensaje descriptivo de la operación",
+            "example": "Operación exitosa"
+          },
+          "Data": {
+            "type": "object",
+            "description": "Datos retornados por la operación",
+            "example": null
+          }
+        },
+        "required": [
+          "Success",
+          "Status",
+          "Message",
+          "Data"
+        ]
+      },
       "CrearPolizaDto": {
         "type": "object",
         "properties": {}
       },
       "UpdatePolizaDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CrearAmparoPolizaDto": {
         "type": "object",
         "properties": {}
       },
